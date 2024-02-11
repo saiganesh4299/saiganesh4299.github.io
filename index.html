@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Book Details</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <!-- Custom CSS for spacing, animation, card design, and star ratings -->
+  <style>
+    body {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      font-family: Arial, sans-serif;
+      overflow: hidden; /* Hide overflow to prevent horizontal scrollbar */
+    }
+
+    @keyframes gradientBG {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .summary-text {
+      color: #fff;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+      opacity: 0; /* Initially hide the card */
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      color: white;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .card-title a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .card-title a:hover {
+      color: #ffd700; /* Gold */
+      text-decoration: underline;
+    }
+
+    .card-text {
+      color: #f0f0f0;
+      max-height: 150px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+
+    .rating {
+      color: #ffd700; /* Gold */
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .navbar-nav .nav-link {
+      color: #f0f0f0;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #ffd700; /* Gold */
+    }
+
+    .container {
+      margin-top: 20px;
+      margin-bottom: 50px;
+    }
+
+    /* Optional: Add media query for smaller screens */
+    @media (max-width: 576px) {
+      .container {
+        margin-top: 10px;
+        margin-bottom: 30px;
+      }
+      .card-title {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Image animation */
+    .bg-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      animation: slide 20s linear infinite alternate;
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(50%);
+      }
+    }
+    
+    /* Fade in animation for cards */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Apply fade in animation to cards */
+    .fade-in {
+      animation: fadeIn 1s forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background image animation -->
+  <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df" class="bg-img" alt="Background Image">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Music Books</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="homeButton">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="ratingsButton">Books Ratings</a>
+        </li>
+        <!-- Add Categories dropdown with icons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories of Music
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#" id="jazzCategory"><i class="fas fa-music"></i> Jazz</a>
+            <a class="dropdown-item" href="#" id="rockCategory"><i class="fas fa-guitar"></i> Rock</a>
+            <a class="dropdown-item" href="#" id="classicalCategory"><i class="fas fa-violin"></i> Classical</a>
+            <!-- Add more categories as needed -->
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchInput">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="searchButton">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <!-- Container for cards -->
+  <div class="container" id="bookContainer">
+    <div id="bookList" class="row card-deck">
+      <!-- Books will be dynamically added here -->
+    </div>
+  </div>
+
+  <!-- Summary text (hidden by default) -->
+  <div class="container" id="summaryContainer">
+    <p class="summary-text" id="summaryText">Here are some recommended books that delve into various aspects of music, including its cultural, social, and technological influences. Explore the summaries below and expand each card to see user ratings!</p>
+  </div>
+
+  <!-- Bootstrap JS (optional) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Font Awesome JS (optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+  <script>
+    // Book data (example)
+    const books = [
+      {
+        title: "How Music Works",
+        description: "How Music Works is a book by David Byrne, the co-founder and principal songwriter of the band Talking Heads. In this book, Byrne explores various aspects of music, including its cultural, social, and technological influences.",
+        rating: 4.5,
+        userRatings: [
+          { username: "John", rating: 4 },
+          { username: "Emily", rating: 5 },
+          { username: "Michael", rating: 4.5 }
+        ]
+      },
+      {
+        title: "The Jazz Standards: A Guide to the Repertoire",
+        description: "The Jazz Standards: A Guide to the Repertoire is a comprehensive guidebook by Ted Gioia that explores the history and significance of the most important jazz songs ever written. It provides insights into the evolution of jazz music and offers in-depth analysis of each song.",
+        rating: 4.7,
+        userRatings: [
+          { username: "Sarah", rating: 4.8 },
+          { username: "David", rating: 4.5 },
+          { username: "Rachel", rating: 5 }
+        ]
+      },
+      {
+        title: "Musicophilia: Tales of Music and the Brain",
+        description: "Musicophilia: Tales of Music and the Brain is a fascinating book by renowned neurologist Oliver Sacks. In this book, Sacks delves into the mysterious relationship between music and the human brain, exploring how music affects our emotions, memories, and even our health.",
+        rating: 4.8,
+        userRatings: [
+          { username: "Jessica", rating: 4.7 },
+          { username: "Matthew", rating: 4.8 },
+          { username: "Olivia", rating: 5 }
+        ]
+      },
+      {
+        title: "How to Listen to Jazz",
+        description: "How to Listen to Jazz is an engaging guidebook by Ted Gioia that provides readers with the tools and insights needed to appreciate jazz music fully. Gioia covers various aspects of jazz, including its history, styles, and key artists, making it accessible to both newcomers and seasoned jazz enthusiasts.",
+        rating: 4.6,
+        userRatings: [
+          { username: "Jason", rating: 4.5 },
+          { username: "Sophia", rating: 4.7 },
+          { username: "William", rating: 4 }
+        ]
+      }
+    ];
+
+    // Function to create a card for each book
+    function createBookCard(book) {
+      let stars = '';
+      for (let i = 0; i < 5; i++) {
+        if (i < Math.floor(book.rating)) {
+          stars += '<span>&#9733;</span>';
+        } else {
+          stars += '<span>&#9734;</span>';
+        }
+      }
+      
+      // Add a video link for each book title
+      const videoLink = `https://www.youtube.com/results?search_query=${encodeURIComponent(book.title)}`;
+      
+      return `
+        <div class="col-md-6 col-lg-4">
+          <div class="card fade-in"> <!-- Add fade-in class to the card -->
+            <div class="card-body">
+              <h5 class="card-title"><a href="${videoLink}" target="_blank">${book.title}</a></h5>
+              <div class="card-text">${book.description}</div>
+              <div class="rating">${stars}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Function to render all books with animation
+    function renderBooksWithAnimation(books) {
+      const bookListElement = document.getElementById("bookList");
+      bookListElement.innerHTML = ''; // Clear previous content
+
+      books.forEach(book => {
+        const cardHTML = createBookCard(book);
+        bookListElement.innerHTML += cardHTML;
+      });
+
+      // Trigger reflow to apply the animation
+      void bookListElement.offsetWidth;
+      // Add fade-in animation to the cards
+      const cards = document.querySelectorAll('.fade-in');
+      cards.forEach(card => {
+        card.style.opacity = 1;
+      });
+    }
+
+    // Function to filter books based on search query
+    function filterBooks(query) {
+      const filteredBooks = books.filter(book =>
+        book.title.toLowerCase().includes(query.toLowerCase()) ||
+        book.description.toLowerCase().includes(query.toLowerCase())
+      );
+      renderBooksWithAnimation(filteredBooks);
+    }
+
+    // Event listener for Home button
+    document.getElementById("homeButton").addEventListener("click", function(event) {
+      document.getElementById("summaryText").innerText = "The purpose of this page is to show ratings of the books.";
+      // Clear books list
+      // renderBooksWithAnimation(books);
+      document.getElementById("bookList").innerHTML="";
+    });
+
+    // Event listener for Ratings button
+    document.getElementById("ratingsButton").addEventListener("click", function(event) {
+      document.getElementById("summaryText").innerText = "Here are the ratings for each book. Click on each card to expand and see user ratings!";
+      // Clear books list
+      renderBooksWithAnimation(books);
+    });
+
+    // Event listener for search button
+    document.getElementById("searchButton").addEventListener("click", function(event) {
+      const query = document.getElementById("searchInput").value.trim();
+      filterBooks(query);
+    });
+
+    // Event listener for search input changes
+    document.getElementById("searchInput").addEventListener("input", function(event) {
+      const query = event.target.value.trim();
+      if (query === '') {
+        renderBooksWithAnimation(books);
+      }
+    });
+
+    // Category click event listeners
+    document.getElementById("jazzCategory").addEventListener("click", function(event) {
+      // Example: Filter books for Jazz category
+      const jazzBooks = books.filter(book =>
+        book.categories.includes("Jazz")
+      );
+      renderBooksWithAnimation(jazzBooks);
+    });
+
+    document.getElementById("rockCategory").addEventListener("click", function(event) {
+      // Example: Filter books for Rock category
+      const rockBooks = books.filter(book =>
+        book.categories.includes("Rock")
+      );
+      renderBooksWithAnimation(rockBooks);
+    });
+
+    document.getElementById("classicalCategory").addEventListener("click", function(event) {
+      // Example: Filter books for Classical category
+      const classicalBooks = books.filter(book =>
+        book.categories.includes("Classical")
+      );
+      renderBooksWithAnimation(classicalBooks);
+    });
+
+    // Initially render all books with animation
+    renderBooksWithAnimation(books);
+  </script>
+</body>
+</html>
